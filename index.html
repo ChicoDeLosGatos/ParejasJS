@@ -9,12 +9,13 @@
     <table id="table" class="table"></table>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script type="text/javascript">
-        var ROW_NUM = 8; // CONFIGURA CUANTOS CAMPOS HAY. ROW_NUM % 2 = 0;
-
+        var firstN = parseInt(prompt("Seleccione la dificultad del 1 al 9.")); // CONFIGURA CUANTOS CAMPOS HAY. ROW_NUM % 2 = 0;
+        var ROW_NUM = (firstN % 2 == 0) ? firstN : firstN + 1;
         /*Configuraciones iniciales*/
         var TOTAL_FIELDS = ROW_NUM * ROW_NUM;
         var TOTAL_PAIRS = TOTAL_FIELDS / 2;
         var table_map = [];
+        var solved = 0;
         var frst = 0;
         var scnd = 0;
 
@@ -86,10 +87,11 @@
             } else if (!scnd) {
                 scnd = [id, n];
                 if (frst[1] == scnd[1]) {
-                    alert("WIN!");
+                    solved++;
                     $("#" + frst[0]).html("<b>" + $("#" + frst[0]).html() + "</b>");
                     $("#" + scnd[0]).html("<b>" + $("#" + scnd[0]).html() + "</b>");
                     frst = scnd = 0;
+                    if (solved == TOTAL_PAIRS) alert("¡¡HAS GANADO!!");
                 } else {
                     $("#" + frst[0]).html('0');
                     $("#" + scnd[0]).html('0');
@@ -103,5 +105,5 @@
         }
     </script>
 </body>
-    
+
 </html>
