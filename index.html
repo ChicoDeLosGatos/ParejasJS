@@ -1,106 +1,107 @@
 <html>
+
 <head>
-<title>PAREJAS v0.1</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>PAREJAS v0.1</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
+
 <body>
-<table id="table" class="table"></table>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script type="text/javascript">
-var ROW_NUM = 8; // CONFIGURA CUANTOS CAMPOS HAY. ROW_NUM % 2 = 0;
+    <table id="table" class="table"></table>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        var ROW_NUM = 8; // CONFIGURA CUANTOS CAMPOS HAY. ROW_NUM % 2 = 0;
 
-/*Configuraciones iniciales*/
-var TOTAL_FIELDS = ROW_NUM * ROW_NUM;
-var TOTAL_PAIRS = TOTAL_FIELDS / 2;
-var table_map = [];
-var frst = 0;
-var scnd = 0;
+        /*Configuraciones iniciales*/
+        var TOTAL_FIELDS = ROW_NUM * ROW_NUM;
+        var TOTAL_PAIRS = TOTAL_FIELDS / 2;
+        var table_map = [];
+        var frst = 0;
+        var scnd = 0;
 
-//Función inicializadora de la tabla.
-function init() {
-    var table_html = "";
-    var n = 1;
-    //Crea la tabla segun las configuraciones. Un par de cada numero.
-    for (var x = 0; x < ROW_NUM; x++) {
-        var row = [];
-        n = (n > TOTAL_PAIRS) ? 1 : n;
-        for (var y = 0; y < ROW_NUM; y++) {
-            row.push(n);
-            n++;
-        }
-        table_map.push(row);
-    }
-
-    //Llama a función de randomizar.
-    table_map = shuffle(table_map);
-
-    //Crea el HTML de la tabla.
-    for (var x = 0; x < table_map.length; x++) {
-        table_html += "<tr>";
-        for (var y = 0; y < table_map[x].length; y++) {
-            table_html += "<td style='text-align:center;cursor:pointer;' id='f" + x + "-" + y + "' class='n" + table_map[x][y] + "'>0</td>";
-        }
-        table_html += "</tr>";
-    }
-
-    //Pinta el HTML de la tabla.
-    $("#table").html(table_html);
-}
-
-//Funcion encargada de randomizar matrices.
-function shuffle(arguments) {
-    for (var k = 0; k < arguments.length; k++) {
-        var i = arguments[k].length;
-        if (i == 0)
-            return false;
-        else {
-            while (--i) {
-                var j = Math.floor(Math.random() * (i + 1));
-                var tempi = arguments[k][i];
-                var tempj = arguments[k][j];
-                arguments[k][i] = tempj;
-                arguments[k][j] = tempi;
+        //Función inicializadora de la tabla.
+        function init() {
+            var table_html = "";
+            var n = 1;
+            //Crea la tabla segun las configuraciones. Un par de cada numero.
+            for (var x = 0; x < ROW_NUM; x++) {
+                var row = [];
+                n = (n > TOTAL_PAIRS) ? 1 : n;
+                for (var y = 0; y < ROW_NUM; y++) {
+                    row.push(n);
+                    n++;
+                }
+                table_map.push(row);
             }
-            return arguments; // remove this line
+
+            //Llama a función de randomizar.
+            table_map = shuffle(table_map);
+
+            //Crea el HTML de la tabla.
+            for (var x = 0; x < table_map.length; x++) {
+                table_html += "<tr>";
+                for (var y = 0; y < table_map[x].length; y++) {
+                    table_html += "<td style='text-align:center;cursor:pointer;' id='f" + x + "-" + y + "' class='n" + table_map[x][y] + "'>0</td>";
+                }
+                table_html += "</tr>";
+            }
+
+            //Pinta el HTML de la tabla.
+            $("#table").html(table_html);
         }
-    }
-    return arguments
-}
 
-
-
-init(); //Llamada a funcion de inicialización
-
-//Listener de los clicks, actua cuando clicas en una celda
-$("td").on("click", function(e) {
-    check(e.currentTarget); //Llamada a función de comprobado
-});
-
-//Funcion de comprobado, comprueba que ambas selecciones contienen el mismo numero.
-function check(target) {
-    var id = target.id;
-    var n = target.className.replace("n", "");
-    $("#" + id).html(n);
-    if (!frst) {
-        frst = [id, n];
-    } else if (!scnd) {
-        scnd = [id, n];
-        if (frst[1] == scnd[1]) {
-            alert("WIN!");
-            $("#" + frst[0]).html("<b>" + $("#" + frst[0]).html() + "</b>");
-            $("#" + scnd[0]).html("<b>" + $("#" + scnd[0]).html() + "</b>");
-            frst = scnd = 0;
-        } else {
-            $("#" + frst[0]).html('0');
-            $("#" + scnd[0]).html('0');
-            frst = scnd = 0;
+        //Funcion encargada de randomizar matrices.
+        function shuffle(arguments) {
+            for (var k = 0; k < arguments.length; k++) {
+                var i = arguments[k].length;
+                if (i == 0)
+                    return false;
+                else {
+                    while (--i) {
+                        var j = Math.floor(Math.random() * (i + 1));
+                        var tempi = arguments[k][i];
+                        var tempj = arguments[k][j];
+                        arguments[k][i] = tempj;
+                        arguments[k][j] = tempi;
+                    }
+                    return arguments; // remove this line
+                }
+            }
+            return arguments
         }
-    } else {
-        $("#" + frst[0]).html('0');
-        $("#" + scnd[0]).html('0');
-        frst = scnd = 0;
-    }
-}
-</script>
+
+        init(); //Llamada a funcion de inicialización
+
+        //Listener de los clicks, actua cuando clicas en una celda
+        $("td").on("click", function(e) {
+            check(e.currentTarget); //Llamada a función de comprobado
+        });
+
+        //Funcion de comprobado, comprueba que ambas selecciones contienen el mismo numero.
+        function check(target) {
+            var id = target.id;
+            var n = target.className.replace("n", "");
+            $("#" + id).html(n);
+            if (!frst) {
+                frst = [id, n];
+            } else if (!scnd) {
+                scnd = [id, n];
+                if (frst[1] == scnd[1]) {
+                    alert("WIN!");
+                    $("#" + frst[0]).html("<b>" + $("#" + frst[0]).html() + "</b>");
+                    $("#" + scnd[0]).html("<b>" + $("#" + scnd[0]).html() + "</b>");
+                    frst = scnd = 0;
+                } else {
+                    $("#" + frst[0]).html('0');
+                    $("#" + scnd[0]).html('0');
+                    frst = scnd = 0;
+                }
+            } else {
+                $("#" + frst[0]).html('0');
+                $("#" + scnd[0]).html('0');
+                frst = scnd = 0;
+            }
+        }
+    </script>
 </body>
+    
 </html>
